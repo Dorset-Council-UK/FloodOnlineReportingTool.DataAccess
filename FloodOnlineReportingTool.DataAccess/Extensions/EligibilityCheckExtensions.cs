@@ -1,4 +1,6 @@
-﻿namespace FloodOnlineReportingTool.DataAccess.Models;
+﻿using FloodOnlineReportingTool.Contracts;
+
+namespace FloodOnlineReportingTool.DataAccess.Models;
 
 public static class EligibilityCheckExtensions
 {
