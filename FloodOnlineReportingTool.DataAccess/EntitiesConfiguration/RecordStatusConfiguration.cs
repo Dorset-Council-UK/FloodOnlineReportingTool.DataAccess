@@ -1,4 +1,5 @@
 ﻿using FloodOnlineReportingTool.DataAccess.Models;
+using FloodOnlineReportingTool.DataAccess.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
