@@ -19,7 +19,7 @@ Please report any bugs via the issue tracker in Azure DevOps.
 
 ## Contributing
 
-Please see our guide on [contributing](CONTRIBUTING.md) if you're interested in getting involved.
+Please see our guide on [contributing](https://github.com/Dorset-Council-UK/FloodOnlineReportingTool.DataAccess/blob/main/CONTRIBUTING.md) if you're interested in getting involved.
 
 ## Reporting security issues
 
@@ -27,7 +27,7 @@ Security issues should be reported privately, to the project team via email at [
 
 ## Core developers
 
-The Flood Reporting tool is a Dorset Council Open Source project. The core developers are currently Dorset Council staff. If you want to become a core developer, Please see our guide on [contributing](CONTRIBUTING.md).
+The Flood Reporting tool is a Dorset Council Open Source project. The core developers are currently Dorset Council staff. If you want to become a core developer, Please see our guide on [contributing](https://github.com/Dorset-Council-UK/FloodOnlineReportingTool.DataAccess/blob/main/CONTRIBUTING.md).
 
 ## Licence
 

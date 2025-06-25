@@ -9,12 +9,14 @@
 		<Company>Dorset Council</Company>
 		<Description>Flood Online Reporting Tool shared DbContext, repositories, and models.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageId>DorsetCouncil.FloodOnlineReportingTool.DataAccess</PackageId>
+		<PackageId>Dorset-Council-UK.FloodOnlineReportingTool.DataAccess</PackageId>
 		<RepositoryUrl>https://github.com/Dorset-Council-UK/FloodOnlineReportingTool.DataAccess</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="35.6.3" />
+		<PackageReference Include="Dorset-Council-UK.FloodOnlineReportingTool.Contracts" Version="1.0.0" />
 		<PackageReference Include="DorsetCouncil.FloodReportingTool.Contracts" Version="1.0.0" />
 		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.4.0" />
 		<PackageReference Include="MassTransit.RabbitMQ" Version="8.4.0" />
@@ -34,9 +36,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="FloodOnlineReportingTool.Contracts">
-	    <HintPath>..\FloodOnlineReportingTool.Contracts.dll</HintPath>
-	  </Reference>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
-	
+
 </Project>
