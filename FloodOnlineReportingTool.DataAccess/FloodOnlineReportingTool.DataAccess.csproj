@@ -17,7 +17,6 @@
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="35.6.3" />
 		<PackageReference Include="Dorset-Council-UK.FloodOnlineReportingTool.Contracts" Version="1.0.0" />
-		<PackageReference Include="DorsetCouncil.FloodReportingTool.Contracts" Version="1.0.0" />
 		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.4.0" />
 		<PackageReference Include="MassTransit.RabbitMQ" Version="8.4.0" />
 		<PackageReference Include="Meziantou.Analyzer" Version="2.0.201">
