@@ -1,6 +1,7 @@
 ﻿using FloodOnlineReportingTool.DataAccess.DbContexts;
 using FloodOnlineReportingTool.DataAccess.Models;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace FloodOnlineReportingTool.DataAccess.Repositories;
@@ -10,6 +11,7 @@ public class InvestigationRepository(
     IPublishEndpoint publishEndpoint
 ) : IInvestigationRepository
 {
+    [Authorize]
     public async Task<Investigation?> ReportedByUser(Guid userId, Guid id, CancellationToken ct)
     {
         return await context.FloodReports
@@ -21,6 +23,7 @@ public class InvestigationRepository(
             .ConfigureAwait(false);
     }
 
+    [Authorize]
     public async Task<Investigation> CreateForUser(Guid userId, InvestigationDto investigationDto, CancellationToken ct)
     {
         var floodReport = await context.FloodReports
@@ -71,6 +74,7 @@ public class InvestigationRepository(
         return investigation;
     }
 
+    [Authorize]
     public async Task<Investigation?> ReportedByUserBasicInformation(Guid userId, CancellationToken ct)
     {
         return await context.FloodReports
