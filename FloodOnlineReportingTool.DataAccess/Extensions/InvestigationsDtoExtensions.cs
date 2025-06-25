@@ -22,22 +22,22 @@ public static class InvestigationsDtoExtensions
             Id = investigationId,
 
             // Water speed
-            BeginId = dto.BeginId.Value,
-            WaterSpeedId = dto.WaterSpeedId.Value,
-            AppearanceId = dto.AppearanceId.Value,
+            BeginId = dto.BeginId!.Value,
+            WaterSpeedId = dto.WaterSpeedId!.Value,
+            AppearanceId = dto.AppearanceId!.Value,
             MoreAppearanceDetails = dto.MoreAppearanceDetails,
 
             // Water destination
             Destinations = [.. dto.Destinations.Select(floodProblemId => new InvestigationDestination(investigationId, floodProblemId))],
 
             // Damaged vehicles
-            WereVehiclesDamagedId = dto.WereVehiclesDamagedId.Value,
+            WereVehiclesDamagedId = dto.WereVehiclesDamagedId!.Value,
             NumberOfVehiclesDamaged = dto.NumberOfVehiclesDamaged,
 
             // Internal (handled below)
 
             // Peak depth (handled below)
-            IsPeakDepthKnownId = dto.IsPeakDepthKnownId.Value,
+            IsPeakDepthKnownId = dto.IsPeakDepthKnownId!.Value,
 
             // Community impact
             CommunityImpacts = [.. dto.CommunityImpacts.Select(floodImpactId => new InvestigationCommunityImpact(investigationId, floodImpactId))],
@@ -54,8 +54,8 @@ public static class InvestigationsDtoExtensions
             HelpReceived = [.. dto.HelpReceived.Select(floodMitigationId => new InvestigationHelpReceived(investigationId, floodMitigationId))],
 
             // Before the flooding - Warnings
-            FloodlineId = dto.FloodlineId.Value,
-            WarningReceivedId = dto.WarningReceivedId.Value,
+            FloodlineId = dto.FloodlineId!.Value,
+            WarningReceivedId = dto.WarningReceivedId!.Value,
 
             // Warning sources
             WarningSources = [.. dto.WarningSources.Select(floodMitigationId => new InvestigationWarningSource(investigationId, floodMitigationId))],
@@ -64,7 +64,7 @@ public static class InvestigationsDtoExtensions
             // Floodline warnings (handled below)
 
             // History
-            HistoryOfFloodingId = dto.HistoryOfFloodingId.Value,
+            HistoryOfFloodingId = dto.HistoryOfFloodingId!.Value,
             HistoryOfFloodingDetails = dto.HistoryOfFloodingDetails,
         };
 
@@ -79,7 +79,7 @@ public static class InvestigationsDtoExtensions
                 WaterEnteredOther = dto.WaterEnteredOther,
 
                 // Internal - When it entered
-                WhenWaterEnteredKnownId = dto.WhenWaterEnteredKnownId.Value,
+                WhenWaterEnteredKnownId = dto.WhenWaterEnteredKnownId!.Value,
                 FloodInternalUtc = dto.FloodInternalUtc,
             };
         }
@@ -89,8 +89,8 @@ public static class InvestigationsDtoExtensions
         {
             investigation = investigation with
             {
-                PeakInsideCentimetres = dto.PeakInsideCentimetres.Value,
-                PeakOutsideCentimetres = dto.PeakOutsideCentimetres.Value,
+                PeakInsideCentimetres = dto.PeakInsideCentimetres!.Value,
+                PeakOutsideCentimetres = dto.PeakOutsideCentimetres!.Value,
             };
         }
 

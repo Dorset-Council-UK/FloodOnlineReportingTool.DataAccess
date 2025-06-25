@@ -26,7 +26,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
             .AsNoTracking()
             .Where(o => o.ReportedByUserId == userId)
             .Select(o => o.EligibilityCheck)
-            .FirstOrDefaultAsync(o => o.Id == id, ct)
+            .FirstOrDefaultAsync(o => o != null && o.Id == id, ct)
             .ConfigureAwait(false);
     }
 
@@ -110,7 +110,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
             .Include(o => o.EligibilityCheck)
             .Where(o => o.ReportedByUserId == userId)
             .Select(o => o.EligibilityCheck)
-            .FirstOrDefaultAsync(o => o.Id == id, ct)
+            .FirstOrDefaultAsync(o => o != null && o.Id == id, ct)
             .ConfigureAwait(false);
 
         if (existingCheck == null)

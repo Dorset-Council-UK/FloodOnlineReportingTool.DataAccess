@@ -31,7 +31,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
                 ContactRecords = o.ContactRecords
                     .OrderByDescending(cr => cr.CreatedUtc)
                     .ToList(),
-                LocationDescription = o.EligibilityCheck.LocationDesc,
+                LocationDescription = o.EligibilityCheck != null ? o.EligibilityCheck.LocationDesc : "Unknown",
             })
             .FirstOrDefaultAsync(ct)
             .ConfigureAwait(false);

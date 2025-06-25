@@ -25,7 +25,7 @@ public static class EligibilityCheckExtensions
     {
         return new EligibilityCheckUpdated(
             eligibilityCheck.Id,
-            eligibilityCheck.UpdatedUtc.Value,
+            eligibilityCheck.UpdatedUtc ?? DateTimeOffset.UtcNow,
             eligibilityCheck.Uprn,
             eligibilityCheck.Easting,
             eligibilityCheck.Northing,
