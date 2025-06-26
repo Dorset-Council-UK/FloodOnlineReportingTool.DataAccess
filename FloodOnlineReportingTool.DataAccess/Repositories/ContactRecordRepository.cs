@@ -1,13 +1,14 @@
 ﻿using FloodOnlineReportingTool.DataAccess.DbContexts;
 using FloodOnlineReportingTool.DataAccess.Models;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace FloodOnlineReportingTool.DataAccess.Repositories;
 
 public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint publishEndpoint) : IContactRecordRepository
 {
-    
+    [Authorize]
     public async Task<ContactRecord?> ReportedByUser(Guid userId, Guid id, CancellationToken ct)
     {
         return await context.FloodReports
@@ -31,7 +32,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
                 ContactRecords = o.ContactRecords
                     .OrderByDescending(cr => cr.CreatedUtc)
                     .ToList(),
-                LocationDescription = o.EligibilityCheck.LocationDesc,
+                LocationDescription = o.EligibilityCheck != null ? o.EligibilityCheck.LocationDesc : "Unknown",
             })
             .FirstOrDefaultAsync(ct)
             .ConfigureAwait(false);
@@ -44,6 +45,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
         return (result.ContactRecords, result.LocationDescription);
     }
 
+    [Authorize]
     public async Task<IReadOnlyCollection<ContactRecord>> AllReportedByUser(Guid userId, CancellationToken ct)
     {
         return await context.FloodReports
@@ -56,6 +58,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
             .ConfigureAwait(false);
     }
 
+    [Authorize]
     public async Task<ContactRecord> CreateForUser(Guid userId, ContactRecordDto dto, CancellationToken ct)
     {
         var floodReport = await context.FloodReports
@@ -105,6 +108,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
         return contactRecord;
     }
 
+    [Authorize]
     public async Task<ContactRecord> UpdateForUser(Guid userId, Guid id, ContactRecordDto dto, CancellationToken ct)
     {
         // using 2 queries only because I need the flood report reference below when creating the message (I am sure this can be optimised)
@@ -162,7 +166,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
         return updatedRecord;
     }
 
-    
+    [Authorize]
     public async Task DeleteForUser(Guid userId, Guid id, CancellationToken ct)
     {
         // using 2 queries only because I need the flood report reference below when creating the message (I am sure this can be optimised)
@@ -209,6 +213,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
         return;
     }
 
+    [Authorize]
     public async Task<IList<ContactRecordType>> GetUnusedRecordTypes(Guid userId, CancellationToken ct)
     {
         var usedRecordTypes = await context.FloodReports
@@ -223,6 +228,7 @@ public class ContactRecordRepository(FORTDbContext context, IPublishEndpoint pub
         return [..Enum.GetValues<ContactRecordType>().Where(o => o != ContactRecordType.Unknown && !usedRecordTypes.Contains(o))];
     }
 
+    [Authorize]
     public async Task<int> CountUnusedRecordTypes(Guid userId, CancellationToken ct)
     {
         // get how many contact record types are in the enum

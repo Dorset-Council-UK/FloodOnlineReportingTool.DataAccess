@@ -20,7 +20,7 @@ public static class ContactRecordExtensions
             floodReportReference,
             contactRecord.Id,
             contactRecord.ContactType.ToString(),
-            contactRecord.UpdatedUtc.Value
+            contactRecord.UpdatedUtc ?? DateTimeOffset.UtcNow
         );
     }
 

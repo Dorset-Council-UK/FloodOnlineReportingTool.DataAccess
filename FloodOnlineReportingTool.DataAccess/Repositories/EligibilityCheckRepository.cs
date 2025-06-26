@@ -1,6 +1,7 @@
 ﻿using FloodOnlineReportingTool.DataAccess.DbContexts;
 using FloodOnlineReportingTool.DataAccess.Models;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -8,6 +9,7 @@ namespace FloodOnlineReportingTool.DataAccess.Repositories;
 
 public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logger, FORTDbContext context, IPublishEndpoint publishEndpoint, ICommonRepository commonRepository) : IEligibilityCheckRepository
 {
+    [Authorize]
     public async Task<EligibilityCheck?> ReportedByUser(Guid userId, CancellationToken ct)
     {
         // TODO: Might need to check a status on the flood report
@@ -19,6 +21,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
             .ConfigureAwait(false);
     }
 
+    [Authorize]
     public async Task<EligibilityCheck?> ReportedByUser(Guid userId, Guid id, CancellationToken ct)
     {
         // TODO: Might need to check a status on the flood report
@@ -26,7 +29,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
             .AsNoTracking()
             .Where(o => o.ReportedByUserId == userId)
             .Select(o => o.EligibilityCheck)
-            .FirstOrDefaultAsync(o => o.Id == id, ct)
+            .FirstOrDefaultAsync(o => o != null && o.Id == id, ct)
             .ConfigureAwait(false);
     }
 
@@ -53,6 +56,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
             .ConfigureAwait(false);
     }
 
+    [Authorize]
     public async Task<EligibilityCheck?> Update(Guid id, EligibilityCheckDto dto, CancellationToken ct)
     {
         logger.LogInformation("Update eligibility check {Id}", id);
@@ -103,6 +107,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
         return updatedCheck;
     }
 
+    [Authorize]
     public async Task<EligibilityCheck?> UpdateForUser(Guid userId, Guid id, EligibilityCheckDto dto, CancellationToken ct)
     {
         var existingCheck = await context.FloodReports
@@ -110,7 +115,7 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
             .Include(o => o.EligibilityCheck)
             .Where(o => o.ReportedByUserId == userId)
             .Select(o => o.EligibilityCheck)
-            .FirstOrDefaultAsync(o => o.Id == id, ct)
+            .FirstOrDefaultAsync(o => o != null && o.Id == id, ct)
             .ConfigureAwait(false);
 
         if (existingCheck == null)
@@ -153,7 +158,6 @@ public class EligibilityCheckRepository(ILogger<EligibilityCheckRepository> logg
 
         return updatedCheck;
     }
-
 
     public async Task<EligibilityResult> CalculateEligibilityWithReference(string reference, CancellationToken ct)
     {

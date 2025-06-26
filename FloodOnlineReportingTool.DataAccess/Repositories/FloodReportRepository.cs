@@ -2,6 +2,7 @@
 using FloodOnlineReportingTool.DataAccess.Models;
 using FloodOnlineReportingTool.DataAccess.Settings;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,7 @@ public class FloodReportRepository(
 {
     private readonly GISSettings _gisSettings = options.Value;
 
+    [Authorize]
     public async Task<FloodReport?> ReportedByUser(Guid userId, CancellationToken ct)
     {
         return await context.FloodReports
@@ -53,6 +55,7 @@ public class FloodReportRepository(
             .ConfigureAwait(false);
     }
 
+    [Authorize]
     public async Task<(bool hasFloodReport, bool hasInvestigation, bool hasInvestigationStarted, DateTimeOffset? investigationCreatedUtc)> ReportedByUserBasicInformation(Guid userId, CancellationToken ct)
     {
         logger.LogInformation("Getting flood report details by user {UserId}.", userId);
