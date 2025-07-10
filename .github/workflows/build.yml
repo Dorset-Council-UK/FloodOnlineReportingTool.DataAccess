@@ -1,4 +1,4 @@
-name: Build and Pack
+name: Build and Publish
 
 on:
   push:
@@ -7,28 +7,39 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-publish:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
-        working-directory: ./
+      - run: dotnet restore
 
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-        working-directory: ./
+      - run: dotnet build --configuration Release --no-restore
 
-      - name: Package NuGet
-        run: dotnet pack --configuration Release --no-build
+      - run: dotnet pack --configuration Release --no-build
 
-      - name: Publish NuGet
-        run: dotnet nuget push **/*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_API_KEY}} --skip-duplicate --no-symbols
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: '**/*.nupkg'
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-runtime-version: '9.0.x'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuget-package
+
+      - run: dotnet nuget push **/*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_API_KEY}} --skip-duplicate --no-symbols
